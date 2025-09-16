@@ -54,15 +54,17 @@ export default function AdminPanel() {
         setLoading(true)
         try {
             const result = await getAllMenusWithCategories(RESTAURANT_ID)
-            if (result.success) {
+            if (result.success && result.data) {
                 setCategories(result.data)
             } else {
                 console.error('Failed to load menu data:', result.error)
                 alert('เกิดข้อผิดพลาดในการโหลดข้อมูล: ' + result.error)
+                setCategories([]) // ตั้งค่าเป็น array ว่างถ้าไม่มีข้อมูล
             }
         } catch (error) {
             console.error('Error loading menu data:', error)
             alert('เกิดข้อผิดพลาดในการโหลดข้อมูล')
+            setCategories([]) // ตั้งค่าเป็น array ว่างในกรณีมี error
         }
         setLoading(false)
     }

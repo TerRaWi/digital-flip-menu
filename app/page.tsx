@@ -43,23 +43,23 @@ export default function Home() {
   }
 
   const testAPI = async () => {
-    if (!restaurantId) {
-      setApiResult('❌ Create sample data first to get restaurant ID')
-      return
-    }
-
-    try {
-      const result = await getMenusWithCategories(restaurantId)
-      if (result.success) {
-        const menuCount = result.data.reduce((total: number, category: any) => total + category.menus.length, 0)
-        setApiResult(`✅ API works! Found ${result.data.length} categories with ${menuCount} menus`)
-      } else {
-        setApiResult(`❌ ${result.error}`)
-      }
-    } catch (error: any) {
-      setApiResult(`❌ ${error.message}`)
-    }
+  if (!restaurantId) {
+    setApiResult('❌ Create sample data first to get restaurant ID')
+    return
   }
+
+  try {
+    const result = await getMenusWithCategories(restaurantId)
+    if (result.success && result.data) {
+      const menuCount = result.data.reduce((total: number, category: any) => total + category.menus.length, 0)
+      setApiResult(`✅ API works! Found ${result.data.length} categories with ${menuCount} menus`)
+    } else {
+      setApiResult(`❌ ${result.error || 'No data returned'}`)
+    }
+  } catch (error: any) {
+    setApiResult(`❌ ${error.message}`)
+  }
+}
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 to-blue-600 p-8">
